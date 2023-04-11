@@ -71,9 +71,9 @@ def get_time_stamps(name):
 def cut_video_frames(name_of_video):
     # Load the video clip
     video_clip = VideoFileClip(name_of_video)
-    name_of_video=name_of_video.split('.')[0]
-    make_folder_dataset(name_of_video)
     time_frame=get_time_stamps(name_of_video)
+    name_of_video=(name_of_video.split('\\')[-1]).split('.')[0]
+    make_folder_dataset(name_of_video)
     for indx,chunk in enumerate(time_frame):
         start_time,end_time=chunk.split('-')        
         video_clip_cut = video_clip.subclip(start_time, end_time).without_audio()
@@ -85,4 +85,12 @@ def cut_video_frames(name_of_video):
     video_clip.reader.close()
     video_clip.audio.reader.close_proc()
 
-cut_video_frames('test_alpha.mp4')
+#cut_video_frames('test_alpha.mp4')
+
+if __name__=='__main__':
+    path_of_input=input('Enter path of the file: ')
+    for file in os.listdir(path_of_input):
+        print(file)
+        if file.endswith('.mp4'):
+            cut_video_frames(path_of_input+'\\'+file)
+    #print("Hello World")
